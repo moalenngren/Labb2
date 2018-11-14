@@ -3,8 +3,20 @@ namespace Labb2
 {
     public class Position
     {
-        public int XCoordinate { get; set; } //Får aldrig bli negativa
-        public int YCoordinate { get; set; } //Får aldrig bli negativa
+        private int x;
+        private int y;
+
+        public int XCoordinate
+        {
+            get => x; 
+            set => x = value < 0 ? 0 : value; 
+        }
+
+        public int YCoordinate
+        {
+            get => y; 
+            set => y = value < 0 ? 0 : value;
+        }
 
         public Position(int x, int y)
         {
@@ -15,13 +27,12 @@ namespace Labb2
 
         public double Length()
         {
-            //TODO - returnera avståndet till origo
-            return 0;
+            return Math.Sqrt(Math.Pow(XCoordinate, 2) + Math.Pow(YCoordinate, 2));
         }
 
         public bool Equals(Position p)
         {
-            return p.XCoordinate == XCoordinate && p.YCoordinate == YCoordinate ? true : false;
+            return p.XCoordinate == XCoordinate && p.YCoordinate == YCoordinate;
         }
 
         public Position Clone()
@@ -36,15 +47,30 @@ namespace Labb2
 
         public static bool operator >(Position p1, Position p2)
         {
-            return p1.Length() == p2.Length() ? p1.XCoordinate > p2.XCoordinate : p1.Length() > p2.Length();
+            return Math.Abs(p1.Length() - p2.Length()) < 0.001 ? p1.XCoordinate > p2.XCoordinate : p1.Length() > p2.Length();
         }
 
         public static bool operator <(Position p1, Position p2)
         {
-            return p1.Length() == p2.Length() ? p1.XCoordinate < p2.XCoordinate : p1.Length() < p2.Length();
+            //return Math.Abs(p1.Length() - p2.Length()) < 0.001 ? p1.XCoordinate < p2.XCoordinate : p1.Length() < p2.Length();
+            return !(p1 > p2);
         }
 
+        public static Position operator +(Position p1, Position p2)
+        {
+            return new Position(p1.XCoordinate + p2.XCoordinate, p1.YCoordinate + p2.YCoordinate);
+        }
 
+        public static Position operator -(Position p1, Position p2)
+        {
+            return new Position(p1.XCoordinate - p2.XCoordinate, p1.YCoordinate - p2.YCoordinate);
+        }
+
+        public static double operator %(Position p1, Position p2)
+        {
+            //TODO - returnera avståendet mellan två punkter avstånd = √(X1 − X2)2+(Y 1 − Y2)2
+            return Math.Sqrt(Math.Pow(p1.XCoordinate - p2.XCoordinate, 2) + Math.Pow(p1.YCoordinate - p2.YCoordinate, 2));
+        }
 
     }
 }
