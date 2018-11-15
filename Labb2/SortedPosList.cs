@@ -7,7 +7,7 @@ namespace Labb2
     public class SortedPosList
     {
 
-        List<Position> PositionList { get; set; }
+        List<Position> PositionList = new List<Position>();
 
         public SortedPosList()
         {
@@ -20,13 +20,13 @@ namespace Labb2
 
         public int Count()
         {
-            return PositionList.Count; // 
+            return PositionList.Count;  
         }
 
         public void Add(Position pos)
         {
             PositionList.Add(pos);
-            PositionList.OrderBy(o => o.Length()).ToList();
+            PositionList = PositionList.OrderBy(o => o.Length()).ToList();
         }
 
         public bool Remove(Position pos)
@@ -52,31 +52,27 @@ namespace Labb2
             return copy;
         }
 
-        public SortedPosList circleContent(Position centerPos, double radius)
-        { 
-            SortedPosList copy = Clone();
-            foreach (Position pos in copy.PositionList)
+        public SortedPosList CircleContent(Position centerPos, double radius)
+        {
+
+            SortedPosList copy = new SortedPosList();
+
+            foreach (Position pos in PositionList)
             {
-                if (Math.Pow(pos.XCoordinate - centerPos.XCoordinate, 2) + Math.Pow(pos.YCoordinate - centerPos.YCoordinate, 2) < Math.Pow(radius, 2))
+
+                if (Math.Sqrt(Math.Pow(centerPos.XCoordinate - pos.XCoordinate, 2) + Math.Pow(centerPos.YCoordinate - pos.YCoordinate, 2)) < radius)
                 {
-                    copy.PositionList.Remove(pos.Clone());
+                    copy.PositionList.Add(pos.Clone());
                 }
             }
             return copy;
+
         }
 
         public static SortedPosList operator +(SortedPosList sp1, SortedPosList sp2)
         {
-            //Skall returnera en ny lista(använd Clone), som är de två adderade listorna
-            //ihopslagna till en
-            //■ Tänk på att den resulterande listan skall vara sorterad!(Tips: använd din
-            //egen Add•metod)
-            SortedPosList copy = Clone();
+            SortedPosList copy = sp1.Clone();
 
-            foreach (Position pos in sp1.PositionList) 
-            {
-                copy.Add(pos);
-            }
             foreach (Position pos in sp2.PositionList)
             {
                 copy.Add(pos);

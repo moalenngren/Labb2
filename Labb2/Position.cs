@@ -68,7 +68,6 @@ namespace Labb2
 
         public static double operator %(Position p1, Position p2)
         {
-            //TODO - returnera avståendet mellan två punkter avstånd = √(X1 − X2)2+(Y 1 − Y2)2
             return Math.Sqrt(Math.Pow(p1.XCoordinate - p2.XCoordinate, 2) + Math.Pow(p1.YCoordinate - p2.YCoordinate, 2));
         }
 
